@@ -1,0 +1,25 @@
+from selenium import webdriver
+import pickle
+
+url = "http://www.thebaseballgauge.com/year.php?yearID=2018&tab=plays&type=HR&WPA=game&game_type=All&invTm=All&batTm=All&fldTm=All&awTm=All&hmTm=All&bases=All&outs=All&half=All&inning=All&results=500&page="
+url1 = "&sort=WPA_a"
+
+table_name = "freeze-three"
+stop = False
+lst = []
+for i in range(1,20):
+    if stop: break
+    driver = webdriver.Chrome()  # Optional argument, if not specified will search path.
+    driver.get(url+str(i)+url1);
+    table = driver.find_elements_by_class_name(table_name)
+    for t in table:
+        cell = t.find_elements_by_tag_name("td")
+        for c in cell:
+            if c.text == "Query has returned 0 results":
+                stop = True
+                break
+            lst.append(c.text)
+    driver.quit()
+            #print(c.text)
+with open("Results.txt", "wb") as fp:  # Pickling
+    pickle.dump(lst, fp)
