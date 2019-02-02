@@ -2,7 +2,6 @@
 Scrape Site
 """
 
-'''
 from selenium import webdriver
 import pickle
 
@@ -34,22 +33,15 @@ for year in range(1998,2018):
 
 with open("data/AllResults.txt", "wb") as fp:  # Pickling
     pickle.dump(lst, fp)
-'''
-
 
 """
 Read Text
 """
 
-'''
 import pickle
 import re
 count = 0
 results = []
-
-header = ["Rk", "WPA", "LI", "Play", "Description", "Batter/Pitcher","Game", "Inn", "Outs", "Rnrs", "Score"]
-
-
 
 Final = []
 lst = []
@@ -66,15 +58,10 @@ for d in data:
 with open("data/DctLst3.txt", "wb") as fp:   #Pickling
     pickle.dump(Final, fp)
     
-    
 import pickle
-
 
 with open("data/DctLst3.txt", "rb") as fp:   # Unpickling
     data = pickle.load(fp)
-
-
-    
     
 #Add the number of runs scored from the HomeRun as a new column
 newResults = []
@@ -88,23 +75,20 @@ for d in data:
     if "Solo" in d[3]:
         d.append(1)
     newResults.append(d)    
-'''
-
 
 """
 Write to Excel
 """
+
 from openpyxl import load_workbook
 
 # Write Header to Excel:
 Columns = ["A","B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
 Names = ["RK", "WPA", "LI", "Desc", "Batter", "Pitcher", "Date", "Inn", "Outs", "Score", "Runs"]
 
-
 wb = load_workbook("data/AllResults.xlsx")
 H = wb["Sheet1"]
 index = 1
-
 
 # Make Header
 for c in range(len(Columns)):
@@ -116,7 +100,4 @@ for row in newResults:
         H[Columns[i] + str(index)] = row[i]
     index += 1
 
-
 wb.save("data/AllResults.xlsx")
-
-'''
